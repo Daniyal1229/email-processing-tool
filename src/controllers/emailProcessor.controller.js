@@ -11,6 +11,12 @@ async function processEmails(auth, processingProgress) {
       for (const email of emails) {
         try {
           const content = await gmailService.getEmailContent(auth, email.id);
+          
+          if (!content || content.trim() === '') {
+            console.log(`Skipping email ${email.id} due to empty content`);
+            continue;
+          }
+
           const category = await openaiService.categorizeEmail(content);
           const reply = await openaiService.generateReply(content, category);
   
@@ -33,6 +39,4 @@ async function processEmails(auth, processingProgress) {
     } while (pageToken);
   }
   
-
-
 module.exports = { processEmails };

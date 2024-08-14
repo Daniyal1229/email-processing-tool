@@ -1,6 +1,8 @@
 let accessToken = '';
 
 document.getElementById('authButton').addEventListener('click', () => {
+    console.log("hello");
+    
     window.location.href = '/auth/gmail';
 });
 
@@ -71,3 +73,5 @@ function displayEmails(emails) {
         emailList.appendChild(emailItem);
     });
 }
+
+

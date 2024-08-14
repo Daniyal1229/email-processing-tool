@@ -2,11 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { google } = require('googleapis');
 const path = require('path');
-const openaiService = require('./services/openai.service');
-const gmailService = require('./services/gmail.service');
-const emailProcessorController = require('./controllers/emailProcessor.controller');
-const EmailTask = require('./models/emailTask.model');
-const config = require('./config/config');
+const openaiService = require('./src/services/openai.service');
+const gmailService = require('./src/services/gmail.service');
+const emailProcessorController = require('./src/controllers/emailProcessor.controller');
+const EmailTask = require('./src/models/emailTask.model');
+const config = require('./src/config/config');
 
 const app = express();
 
@@ -19,7 +19,11 @@ mongoose.connection.on('error', err => {
 });
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname,"src",'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname,"src", 'public', 'index.html'));
+});
 
 let processingProgress = {
     totalEmails: 0,
@@ -27,6 +31,8 @@ let processingProgress = {
 };
 
 app.get('/auth/gmail', (req, res) => {
+console.log("hello");
+
   const authUrl = gmailService.getAuthUrl();
   res.redirect(authUrl);
 });
@@ -98,9 +104,7 @@ app.get('/email-results', async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

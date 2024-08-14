@@ -31,5 +31,5 @@ This project is a Node.js application that automates the process of fetching, ca
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/email-processing-tool.git
+   git clone https://github.com/Daniyal1229/email-processing-tool.git
    cd email-processing-tool
